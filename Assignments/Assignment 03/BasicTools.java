@@ -10,5 +10,17 @@ public interface BasicTools {
      * @param other DynamicArray to determine if it intersects with this object
      * @return true if two DynamicArrays have a common entry; false otherwise.
      */
-    public boolean intersects(DynamicArray other);
+    public boolean intersects(DynamicArray other) {
+        boolean intersect = false;
+        while (!intersect && this.data.hasNext()) {
+            String otherWord = other.next();
+            if (data.contains(otherWord) {
+                boolean = true;
+            }
+        
+        }
+        return intersects;
+
+
+    }
 }
