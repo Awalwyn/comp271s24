@@ -44,4 +44,26 @@ public class TrainLine {
             currentStation.setNext(newStation);
         }
     } // method addStation
+
+    public boolean toString(String name) {
+        //initalize found boolean to false
+        boolean found = false;
+        //guard against empty line
+        if (this.head != null) {
+            //create new station to iterate through trainline
+            Station holder = this.head;
+            //while loop runs while holder hasNext() and found is false
+            while (holder != null && !found) {
+                //if statmement to check if name of holder station is same as parameter
+                if (holder.getName().equals(name)) {
+                    //if same update found to true
+                    found = true;
+                }
+                //move holder station down the line
+                holder = holder.getNext();
+
+            }
+        }
+        return found;
+    }//method toString
 }

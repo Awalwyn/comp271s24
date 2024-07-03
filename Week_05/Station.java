@@ -38,13 +38,19 @@ public class Station {
         return this.next != null;
     } // method hasNext
 
+   
+
     /**
-     * Accessor for next
+     * Accessor for nex to zxt
      * 
      * @return Station object after this object. May return a null.
      */
     public Station getNext() {
         return this.next;
     } // method getNext()
-    
+
+    public String getName() {
+        return this.name;
+
+    }//method getName    
 } // class Station
