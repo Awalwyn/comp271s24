@@ -72,7 +72,7 @@ public class TrainLine {
         boolean found = false;
         Station current = this.head;
         while (!found && current != null) {
-            found = current.getName().equals(name);
+            found = current.getName().equals(stationName);
             current = current.getNext();
         }
         return found;
@@ -130,7 +130,7 @@ public class TrainLine {
             Station current = this.head;
             while (current.hasNext()) {
                 sb.append(String.format("[ %s ] --> ", current.getName()));
-                current = current.getNext()
+                current = current.getNext();
             }
             // Treat the last station in the line
             sb.append(String.format("[ %s ]", tail.getName()));
@@ -140,6 +140,29 @@ public class TrainLine {
 
     /** STUB FOR indexOf */
     public int indexOf(String name) {
-        return -1;
+        // initialize indx value to -1
+        int index = -1;
+        //check that line is not empty
+        if (this.head !=null) {
+            //initialize variable to keep track of place
+            int place = 0;
+            //create holder station to iterate through line
+            Station holster = this.head;
+            // iterate holder through line while holster has next
+            while (holster != null && index < 0) {
+                // check parameter to station name and update index
+                if (holster.getName().equals(name)) {
+                    index = place;
+
+                }
+                place++;
+                holster = holster.getNext();
+                
+            }
+        }
+        return index;
     } // method indexOf
+
+    
+
 }

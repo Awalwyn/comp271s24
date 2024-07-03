@@ -8,10 +8,18 @@ public class SimpleTesting {
         // Create a small train line and add a few stations to it with names
         // drawn from a String[]
         TrainLine redLineSB = new TrainLine();
+        TrainLine redLineNB = new TrainLine();
+        String[] newNames = {"Thorndale", "Granville", "Loyola", "Morse", "Jarvis", "Howard"};
+        for (String name: newNames) {
+            redLineSB.append(redLineNB);
+        }
+        System.out.println("" + redLineSB.getNumberOfStations());
         String[] stationNames = { "Howard", "Jarvis", "Morse",
                 "Loyola", "Granville", "Thorndale" };
         for (String name : stationNames) {
             redLineSB.addStation(name);
+            
+            
         }
         // Test sequence
         boolean sequence = true;
@@ -22,5 +30,6 @@ public class SimpleTesting {
         // Test non existent
         boolean nonExisting = (redLineSB.indexOf(NON_EXISTENT) == -1);
         System.out.printf("\n\nSequence test: %s", (nonExisting ? PASS : FAIL));
+        
     }
 }

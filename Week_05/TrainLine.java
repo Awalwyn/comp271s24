@@ -1,6 +1,25 @@
 public class TrainLine {
-    
+
+    private static final String EMPTY_LINE = "This line is empty.";
+
+    /** Points to first station in the train line */
     private Station head;
+
+    /**
+     * Points to the last station and facilitates O(1) performance when adding
+     * a new station at the end of the line
+     */
+    private Station tail;
+
+    /** Current number of stations in this object */
+    private int numberOfStations;
+
+    /** Default constructor - redundant but good to show intent */
+    public TrainLine() {
+        this.head = null;
+        this.tail = null;
+        this.numberOfStations = 0;
+    } // default constructor
 
     /**
      * Add a new station at the end of this trainline. The method creates
@@ -9,8 +28,8 @@ public class TrainLine {
      * the head station. If this line has a head station, the method begins
      * traversing this line from its head station, following the next points
      * untils it finds a station whose next is null. That station, by definition
-     * is presently the last station in the line. The new station is added after 
-     * that last station. 
+     * is presently the last station in the line. The new station is added after
+     * that last station.
      * 
      * @param name String with name of new station to add
      */
@@ -19,51 +38,133 @@ public class TrainLine {
         Station newStation = new Station(name);
         // Check if this trainline has a head station yet or not
         if (this.head == null) {
-            // There is no head station in this trainline. Make the 
-            // new station, just created, the head station and end.
+            // There is no head station in this trainline. Make the
+            // new station, just created, the head station and also
+            // the tail station of the line and we are done.
             this.head = newStation;
+            this.tail = newStation;
         } else {
-            // This line has a head station. Let's start traversing this line,
-            // one station at a time, to find its last station. The station we
-            // visit, in each step, is called the current station. We begin
-            // with this trainline's head station.
-            Station currentStation = this.head;
-            // The while-loop below hops from station to station, until
-            // it finds a station that points to null. That's the last
-            // station of the line.
-            while (currentStation.hasNext()) {
-                currentStation = currentStation.getNext();
-            }
-            // When loop is over, currentStation is the last station. We want
-            // to add the new station after the current station. All we have
-            // to do is to make the current station point to the new station 
-            // as its next station. Notice that the new station was created,
-            // earlier, using the Station(String) constructor that left its
-            // field next to null. Effectively, it is now the last station
-            // this line because its field next is null.
-            currentStation.setNext(newStation);
+            // The trainline has an existing head station. Therefore,
+            // it also has a known last station (this.tail).
+            this.tail.setNext(newStation); // add new station after tail station
+            this.tail = newStation; // Designate newly added station as tail station
         }
+        // Update station counter
+        this.numberOfStations++;
     } // method addStation
 
-    public boolean toString(String name) {
-        //initalize found boolean to false
-        boolean found = false;
-        //guard against empty line
-        if (this.head != null) {
-            //create new station to iterate through trainline
-            Station holder = this.head;
-            //while loop runs while holder hasNext() and found is false
-            while (holder != null && !found) {
-                //if statmement to check if name of holder station is same as parameter
-                if (holder.getName().equals(name)) {
-                    //if same update found to true
-                    found = true;
-                }
-                //move holder station down the line
-                holder = holder.getNext();
+    /**
+     * Accessor for this.numberOfStations
+     * 
+     * @return int with number of stations presently in this TrainLine
+     */
+    public int getNumberOfStations() {
+        return this.numberOfStations;
+    } // method getNumberOfStations
 
+    /**
+     * Determines if a station with a specific name is present in this TrainLine
+     * 
+     * @param stationName String with station name to search for
+     * @return true if station found; false otherwise or if object has no stations.
+     */
+    public boolean contains(String stationName) {
+        boolean found = (indexOf(stationName) >= 0);
+        return found;
+    } // method contains
+
+    /**
+     * Inserts a new station after an existing one.
+     * 
+     * @param existingStationName String with name of existing station that we
+     *                            are adding a station after.
+     * @param stationToAdd        String with name of new station to add.
+     * @return true if insertion is successful, false if there is a problem.
+     *         Potential problems inlude the presence of the station we are trying
+     *         to add, the absence of the station we are trying to add after, and
+     *         null/empty strings.
+     */
+    public boolean addAfter(String existingStationName, String stationToAdd) {
+        boolean success = false;
+        // Check if the station to add is already present in the TrainLine
+        // object or if the supplied strings are null or empty.
+        if (!this.contains(stationToAdd)
+                && existingStationName != null && existingStationName.length() > 0
+                && stationToAdd != null && stationToAdd.length() > 0) {
+            // Traverse the TrainLine, looking for the existing station
+            Station current = this.head;
+            while (current != null) {
+                // Check if the current station is the one we are looking for.
+                // If the intended station is not found, we skill the if block,
+                // the while-loop eventually ends, and we return the intial
+                // value of success which is still false.
+                if (current.getName().equals(existingStationName)) {
+                    // Intended station found, time to get things going, first
+                    // by creating the new station to insert.
+                    Station newStation = new Station(stationToAdd);
+                    // Make the new station point to where the existing station points
+                    newStation.setNext(current.getNext());
+                    // Make the existing station point to the new station
+                    current.setNext(newStation);
+                    // Update the return variable to indicate a successful insertion
+                    success = true;
+                }
             }
         }
-        return found;
-    }//method toString
+        return success;
+    } // method addAfter
+
+    /**
+     * Textual representation of this TrainLine
+     */
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        if (this.head == null) {
+            sb.append(EMPTY_LINE);
+        } else {
+            Station current = this.head;
+            while (current.hasNext()) {
+                sb.append(String.format("[ %s ] --> ", current.getName()));
+                current = current.getNext();
+            }
+            // Treat the last station in the line
+            sb.append(String.format("[ %s ]", tail.getName()));
+        }
+        return sb.toString();
+    } // method toString
+
+    
+    public int indexOf(String name) {
+        // initialize indx value to -1
+        int index = -1;
+        //check that line is not empty
+        if (this.head != null) {
+            //initialize variable to keep track of place
+            int place = 0;
+            //create holder station to iterate through line
+            Station holster = this.head;
+            // iterate holder through line while holster has val and index is neg
+            while (holster != null && index < 0) {
+                // check parameter to station name and update index if same
+                if (holster.getName().equals(name)) {
+                    index = place;
+
+                }
+                holster = holster.getNext();
+                place++;
+            }
+        }
+        return index;
+    } // method indexOf
+
+    public void append(TrainLine other) {
+        // guard against empty line
+        if (this.head != null) {
+            //set tail of A to point to head of B
+            this.tail.setNext(other.head);
+            //make tail of B the new end of appended line
+            this.tail = other.tail;
+        }
+    }//method append
+   
 }
