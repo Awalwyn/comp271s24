@@ -1,0 +1,5 @@
+    potential toString code
+toString(String name)
+create an empty string
+concatenate empty string with getName method for name parameter
+use if statement to print out message for empty train line if head val is returns null
