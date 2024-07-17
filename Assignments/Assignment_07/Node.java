@@ -7,6 +7,8 @@ class Node {
     private String data;
     /** Pointer to the next node */
     private Node next;
+    
+    
 
     /** Basic constructor */
     public Node(String data) {
@@ -33,4 +35,6 @@ class Node {
     public String toString() {
         return this.data;
     } // method toString
+
+
 } // class Node
