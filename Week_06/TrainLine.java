@@ -45,6 +45,8 @@ public class TrainLine {
             // The trainline has an existing head station. Therefore,
             // it also has a known last station (this.tail).
             this.tail.setNext(newStation); // add new station after tail station
+            //set current tail to new station prev
+            
             this.tail = newStation; // Designate newly added station as tail station
         }
         // Update station counter
