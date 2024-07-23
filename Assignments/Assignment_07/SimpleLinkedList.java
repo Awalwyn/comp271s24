@@ -9,6 +9,7 @@ public class SimpleLinkedList implements Stack271<String>, Queue271<String> {
 
     /** The last node of the linked list */
     private Node tail;
+<<<<<<< HEAD
 
     public int capacity = 3;
     public int usage = 0;
@@ -110,5 +111,7 @@ return val;
 
 
 
+=======
+>>>>>>> e978e8064fdd5d22c4d5ac26a79b6f8f70dca0c7
     
 } // class SimpleLinkedList
