@@ -246,7 +246,7 @@ public class TrainLine {
         while (otherPos.hasNext() && !intersect) {
             while (thisPos.hasNext()) {
                 //check the stations to each other
-                if (otherPos.equals(thisPos)) {
+                if (otherPos.getName().equals(thisPos.getName())) {
                      //update intersect bool if true
                      intersect = true;
                 }
@@ -269,7 +269,9 @@ public class TrainLine {
      */
 
     public int compareTo(TrainLine other) {
+        //create int val to hold difference
         int result = 0;
+        //assume invoked line not null so guard against new line
         if (other.head != null) {
             result = this.numberOfStations - other.numberOfStations;
         }
