@@ -218,4 +218,63 @@ public class TrainLine {
         }
     } // method append
 
+    public String listStations() {
+        //create string builder
+        StringBuilder str = new StringBuilder();
+        //create holder station
+        if (this.head != null) {
+            Station holder = this.head;
+            while (holder.hasNext()) {
+                //add string to string builder
+                str.append(holder.getName()+ "\n");
+                //move to next station
+                holder.getNext();
+            }
+        }
+        return str.toString();
+    }// method listStations
+
+    public boolean intersects(TrainLine other) {
+        //create false bool
+        boolean intersect = false;
+        //guard against both lines being empty
+        if (this.head != null && other.head != null) {
+            //create holder for both train lines
+            Station thisPos = this.head;
+            Station otherPos = other.head;
+        //nested while loop to check each other station against each this station 
+        while (otherPos.hasNext() && !intersect) {
+            while (thisPos.hasNext()) {
+                //check the stations to each other
+                if (otherPos.equals(thisPos)) {
+                     //update intersect bool if true
+                     intersect = true;
+                }
+                //move thisPos to next station
+                thisPos.getNext();
+            }
+            //move otherPos to next station
+            otherPos.getNext();
+        }
+        }
+        return intersect;
+    }// method intersects
+
+    /**
+     * 
+     * @param other
+     * @return int
+     * compares the length of two Train lines by finding the
+     * difference b/w the number of stations they have
+     */
+
+    public int compareTo(TrainLine other) {
+        int result = 0;
+        if (other.head != null) {
+            result = this.numberOfStations - other.numberOfStations;
+        }
+       return result;
+    }// method compareTo
+    
+
 } // class TrainLine
